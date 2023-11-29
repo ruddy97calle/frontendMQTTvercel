@@ -1,28 +1,1 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Controles from './Controles';
-import Etapas from './Etapas';
-import Background from './Background/Background'; 
-
-function ControlPanel() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const hasPassedLogin = sessionStorage.getItem('hasPassedLogin');
-    if (hasPassedLogin !== 'true') {
-      navigate('/login');
-    }
-  }, [navigate]);
-
-  return (
-    <div style={{ position: 'relative', height: '100vh' }}>
-      <Background /> 
-      <div style={{ display: 'flex', justifyContent: 'space-between', height: '100vh', position: 'absolute', top: 0, left: 0, right: 0 }}>
-        <Controles />
-        <Etapas />
-      </div>
-    </div>
-  );
-}
-
-export default ControlPanel;
+import React, { useEffect, useRef, useState } from 'react';import { useNavigate } from 'react-router-dom';import Controles from './Controles';import Etapas from './Etapas';function ControlPanel() {  const navigate = useNavigate();  const videoRef = useRef(null);  const [imageStates, setImageStates] = useState({    banda: false,    enjabonado: false,    cepillado: false,    secado: false,  });  useEffect(() => {    const hasPassedLogin = sessionStorage.getItem('hasPassedLogin');    if (hasPassedLogin !== 'true') navigate('/login');  }, [navigate]);  const [videoState, setVideoState] = useState({    started: false,    paused: false,  });  const handleInicioClick = () => {    setTimeout(() => {      if (videoRef.current) {        videoRef.current.play();        setVideoState((prevState) => ({ ...prevState, started: true }));      }    }, 500);  };  const handleParoClick = () => {    if (videoRef.current) {      videoRef.current.pause();      videoRef.current.currentTime = 0;    }  };  const handlePausaClick = () => {    if (videoRef.current) {      videoRef.current.pause();      setVideoState((prevState) => ({ ...prevState, paused: true }));    }  };  const handleContinuarClick = () => {    if (videoRef.current && videoState.started && videoState.paused) {      videoRef.current.play();      setVideoState((prevState) => ({ ...prevState, paused: false }));    }  };      const handleToggleImage = (imageKey) => {    setImageStates((prevStates) => ({      ...prevStates,      [imageKey]: !prevStates[imageKey],    }));  };  return (    <div style={{ position: 'relative', height: '100vh', overflow: 'hidden', zIndex: imageStates.banda ? 1 : 0 }}>      <div style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>        {Object.keys(imageStates).map((key) => (          imageStates[key] && (            <div key={key} style={{ position: 'absolute', top: 0, left: 0, zIndex: 2, width: '100%', height: '100%' }}>              <img                src={`/${key}.png`}                alt={key}                style={{ width: '100%', height: '100%', objectFit: 'contain' }}              />            </div>          )        ))}        <Etapas/>        <div style={{ width: '100%', height: '0', paddingBottom: '56.25%', position: 'relative', zIndex: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', border: '15px solid black' }}>          <video            ref={videoRef}            style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', top: 0, left: 0 }}          >            <source src="/video1.mp4" type="video/mp4" />            Tu navegador no soporta el elemento de video.          </video>        </div>        <div style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateX(-200%)', zIndex: 4, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', padding: '10px' }}>          <button style={{ marginBottom: '10px', backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }} onClick={() => handleToggleImage('banda')}>Mostrar/Ocultar Banda</button>          <button style={{ marginBottom: '10px', backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }} onClick={() => handleToggleImage('enjabonado')}>Mostrar/Ocultar Enjabonado</button>          <button style={{ marginBottom: '10px', backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }} onClick={() => handleToggleImage('cepillado')}>Mostrar/Ocultar Cepillado</button>          <button style={{ backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }} onClick={() => handleToggleImage('secado')}>Mostrar/Ocultar Secado</button>        </div>        <div style={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)', zIndex: 4 }}>        <Controles            onInicioClick={handleInicioClick}            onParoClick={handleParoClick}            onPausaClick={handlePausaClick}            onContinuarClick={handleContinuarClick}            videoState={videoState}            setVideoState={setVideoState}          />        </div>      </div>    </div>  );}export default ControlPanel;

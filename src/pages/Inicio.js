@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 function Inicio() {
   return (
     <div>
@@ -11,5 +10,4 @@ function Inicio() {
     </div>
   );
 }
-
 export default Inicio;

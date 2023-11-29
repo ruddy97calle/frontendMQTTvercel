@@ -1,36 +1,1 @@
-import React from 'react';
-import BandaTransportadoraControl from './etapas/BandaTransportadoraControl';
-import BandaTransportadoraEstado from './etapas/BandaTransportadoraEstado';
-import CepilladoControl from './etapas/CepilladoControl';
-import CepilladoEstado from './etapas/CepilladoEstado';
-import EnjabonadoControl from './etapas/EnjabonadoControl';
-import EnjabonadoEstado from './etapas/EnjabonadoEstado';
-import SecadoControl from './etapas/SecadoControl';
-import SecadoEstado from './etapas/SecadoEstado';
-
-function Etapas() {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100vh' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ marginBottom: '20px' }}>
-          <BandaTransportadoraControl />
-          <BandaTransportadoraEstado />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <EnjabonadoControl />
-          <EnjabonadoEstado />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <CepilladoControl />
-          <CepilladoEstado />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <SecadoControl />
-          <SecadoEstado />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Etapas;
+import React from 'react';import './Etapas.css';  import BandaTransportadoraControl from './etapas/BandaTransportadoraControl';import BandaTransportadoraEstado from './etapas/BandaTransportadoraEstado';import CepilladoControl from './etapas/CepilladoControl';import CepilladoEstado from './etapas/CepilladoEstado';import EnjabonadoControl from './etapas/EnjabonadoControl';import EnjabonadoEstado from './etapas/EnjabonadoEstado';import SecadoControl from './etapas/SecadoControl';import SecadoEstado from './etapas/SecadoEstado';function Etapas() {  return (    <div className="etapas-container">      <div className="etapas-item">        <div className="etapas-control-estado-container">          <div className="etapas-estado">            <BandaTransportadoraEstado />          </div>          <div className="etapas-control">            <BandaTransportadoraControl />          </div>                 </div>      </div>      <div className="etapas-item">        <div className="etapas-control-estado-container">          <div className="etapas-estado">            <EnjabonadoEstado />          </div>          <div className="etapas-control">            <EnjabonadoControl />          </div>                 </div>      </div>      <div className="etapas-item">        <div className="etapas-control-estado-container">          <div className="etapas-estado">            <CepilladoEstado />          </div>          <div className="etapas-control">            <CepilladoControl />          </div>                  </div>      </div>      <div className="etapas-item">        <div className="etapas-control-estado-container">          <div className="etapas-estado">            <SecadoEstado />          </div>          <div className="etapas-control">            <SecadoControl />          </div>               </div>      </div>    </div>  );}export default Etapas;

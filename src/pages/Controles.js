@@ -1,64 +1,1 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import InicioControl from './controles/InicioControl';
-import ParoControl from './controles/ParoControl';
-import PausaControl from './controles/PausaControl';
-import ContinuarControl from './controles/ContinuarControl';
-import Indicador from './controles/Indicador';
-
-function Controles() {
-  const [color, setColor] = useState('red');
-  const [contador, setContador] = useState(60);
-  const [intervalId, setIntervalId] = useState(null);
-
-  const handleInicio = () => {
-    setColor('green');
-    const id = setInterval(() => {
-      setContador(prevContador => prevContador - 1);
-    }, 1000);
-    setIntervalId(id);
-  };
-
-  const handleParo = useCallback(() => {
-    setColor('red');
-    clearInterval(intervalId);
-    setContador(60);
-  }, [intervalId]);
-
-  const handlePausa = () => {
-    setColor('blue');
-    clearInterval(intervalId);
-  };
-
-  const handleContinuar = () => {
-    setColor('green');
-    const id = setInterval(() => {
-      setContador(prevContador => prevContador - 1);
-    }, 1000);
-    setIntervalId(id);
-  };
-
-  useEffect(() => {
-    if (contador === 0) {
-      handleParo();
-    }
-  }, [contador, handleParo]);
-
-  return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'flex-start', 
-      justifyContent: 'center', 
-      height: '100%', 
-      padding: '10px' 
-    }}>
-      <InicioControl onClick={handleInicio} />
-      <ParoControl onClick={handleParo} />
-      <PausaControl onClick={handlePausa} />
-      <ContinuarControl onClick={handleContinuar} />
-      <Indicador color={color} contador={contador} />
-    </div>
-  );
-}
-
-export default Controles;
+import React, { useState, useEffect, useCallback } from 'react';import InicioControl from './controles/InicioControl';import ParoControl from './controles/ParoControl';import PausaControl from './controles/PausaControl';import ContinuarControl from './controles/ContinuarControl';import Indicador from './controles/Indicador';function Controles({ onInicioClick, onParoClick, onPausaClick, onContinuarClick, videoState, setVideoState }) {  const [color, setColor] = useState('#FF5A78');  const [contador, setContador] = useState(60);  const [intervalId, setIntervalId] = useState(null);  const startInterval = useCallback(() => {    console.log('Nuevo valor de contador:', contador);    const id = setInterval(() => setContador(prevContador => prevContador - 1), 1000);    setIntervalId(id);  }, [contador]);    const handleInicio = () => {    setColor('green');    startInterval();    onInicioClick && onInicioClick();  };  const handleParo = useCallback(() => {    setColor('#FF5A78');    clearInterval(intervalId);    setContador(60);    setVideoState((prevState) => ({      ...prevState,      started: false,      paused: false,    }));    onParoClick && onParoClick();  }, [intervalId, onParoClick, setVideoState]);    const handlePausa = () => {    if (videoState.started && onPausaClick) {      setColor('blue');      clearInterval(intervalId);      onPausaClick();    }  };  const handleContinuar = () => {    if (videoState.started) {      setColor('green');      startInterval();      onContinuarClick && onContinuarClick();    }  };    useEffect(() => {    console.log('Valor del contador:', contador);    if (contador === 0) handleParo();  }, [contador, handleParo]);  return (    <div style={{       display: 'flex',       flexDirection: 'column',       position: 'absolute',       top: 0,       left: 0,       alignItems: 'flex-start',       justifyContent: 'center',       height: '60%',       transform: 'translate(30px, 10px)',    }}>      <div style={{ marginBottom: '-10px', transform: 'scale(0.7)' }}>         <InicioControl onClick={handleInicio} />      </div>      <div style={{ marginBottom: '-10px', transform: 'scale(0.7)' }}>         <ParoControl onClick={handleParo} />      </div>      <div style={{ marginBottom: '-10px', transform: 'scale(0.7)' }}>         <PausaControl onClick={handlePausa} />      </div>      <div style={{ marginBottom: '-10px', transform: 'scale(0.7)' }}>         <ContinuarControl onClick={handleContinuar} />      </div>      <div style={{ transform: 'translate(30px, 7px) scale(0.9)', marginBottom: '2px' }}>         <Indicador color={color} contador={contador} />      </div>    </div>  );          }export default Controles;

@@ -1,23 +1,1 @@
-import React from 'react';
-
-function InicioControl({ onClick }) {
-  const handleClick = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/controlesplc/inicio/control`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ estado: 'ACTIVO' }),
-      });
-      if (!response.ok) {
-        throw new Error('Error al activar el control');
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-    onClick && onClick();
-  };
-
-  return <button onClick={handleClick}>Inicio</button>;
-}
-
-export default InicioControl;
+import React from 'react';import './Controles.css';function InicioControl({ onClick }) {  const handleClick = async () => {    try {      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/controlesplc/inicio/control`, {        method: 'POST',        headers: { 'Content-Type': 'application/json' },        body: JSON.stringify({ estado: 'ACTIVO' }),      });      if (!response.ok) {        throw new Error('Error al activar el control');      }    } catch (error) {      console.error(error.message);    }    onClick && onClick();  };  return (    <div className="boton-controles">      <button className="boton-control inicio" onClick={handleClick}>        Inicio      </button>    </div>  );}export default InicioControl;

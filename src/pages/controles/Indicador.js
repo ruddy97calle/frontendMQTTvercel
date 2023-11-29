@@ -1,12 +1,1 @@
-import React from 'react';
-
-function Indicador({ color, contador }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: color }} />
-      <div>{contador}</div>
-    </div>
-  );
-}
-
-export default Indicador;
+import React from 'react';import styled from 'styled-components';const CircleContainer = styled.div`  display: flex;  flex-direction: column;  align-items: center;`;const Circle = styled.div`  width: 100px;  height: 100px;  border: none;  outline: none;  cursor: default;  pointer-events: none;  user-select: none;  touch-action: manipulation;  outline: 15px solid rgba(39, 39, 51, 1);  border-radius: 50%;  position: relative;  display: flex;  flex-direction: column;  align-items: center;  transition: .3s;`;const CircleBack = styled.div`  background: ${props => hexToRgb(props.color)};  border-radius: 50%;  position: absolute;  left: 0;  top: 0;  width: 100%;  height: 100%;  box-shadow: 0 0.9em 1em -0.2em rgba(0, 0, 0, 2);`;function hexToRgb(hex) {  hex = hex.replace(/^#/, '');  const bigint = parseInt(hex, 16);  const r = (bigint >> 16) & 255;  const g = (bigint >> 8) & 255;  const b = bigint & 255;  return `rgb(${r}, ${g}, ${b})`;}const CircleFront = styled.div`  background: ${props => props.color};  box-shadow: 0 .3em 1em -0.1em ${props => props.color};  border-radius: 50%;  position: absolute;  border: 3px solid rgba(0, 0, 0, 0.8);  width: 100%;  height: 100%;  transform: translate(-1%, -15%);  &::after {    content: attr(data-counter);    position: absolute;    top: 50%;    left: 50%;    transform: translate(-50%, -60%);    font-size: 24px;    font-family: 'Impact', Courier, monospace;    color: white;  }`;function Indicador({ color, contador }) {  return (    <CircleContainer>      <Circle>        <CircleBack color={color} />        <CircleFront color={color} data-counter={contador}/>      </Circle>    </CircleContainer>  );}export default Indicador;
