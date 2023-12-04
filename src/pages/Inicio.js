@@ -1,13 +1,1 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-function Inicio() {
-  return (
-    <div>
-      <h1>SISTEMA AUTOMATIZADO DE LAVADO DE AUTOMÓVILES</h1>
-      <Link to="/login" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-        CLIC AQUÍ PARA INICIAR SESIÓN
-      </Link>
-    </div>
-  );
-}
-export default Inicio;
+import React from 'react';import { Link } from 'react-router-dom';import Slider from 'react-slick';import 'slick-carousel/slick/slick.css';import 'slick-carousel/slick/slick-theme.css';import './Inicio.css'; function Inicio() {  const settings = {    dots: false,    infinite: true,    autoplay: true,    autoplaySpeed: 3000,    speed: 1000,    slidesToShow: 1,    slidesToScroll: 1,    fade: true,    cssEase: 'linear',    arrows: false,    draggable: false,    pauseOnHover: false,  };  return (    <div className="container">      <div className="gradient-overlay"></div>      <Slider {...settings} className="carousel">        <div>          <img src="/imagen1.webp" alt="Imagen 1" className="carousel-image" />        </div>        <div>          <img src="/imagen2.webp" alt="Imagen 2" className="carousel-image" />        </div>        <div>          <img src="/imagen3.webp" alt="Imagen 3" className="carousel-image" />        </div>      </Slider>      <button className="btt2" data-text="Awesome">          <span className="actual-text">&nbsp;DISEÑO E IMPLEMENTACIÓN DE TECNOLOGÍA IOT UTILIZANDO EL PROTOCOLO MQTT PARA LA COMUNICACIÓN Y CONTROL EN UN SISTEMA AUTOMATIZADO DE LAVADO DE AUTOMÓVILES&nbsp;</span>          <span aria-hidden="true" className="hover-text">&nbsp;DISEÑO E IMPLEMENTACIÓN DE TECNOLOGÍA IOT UTILIZANDO EL PROTOCOLO MQTT PARA LA COMUNICACIÓN Y CONTROL EN UN SISTEMA AUTOMATIZADO DE LAVADO DE AUTOMÓVILES&nbsp;</span>      </button>      <Link to="/login" className="btt3-link">        <button className="btt3">INICIAR SESIÓN</button>      </Link>    </div>  );}export default Inicio;
